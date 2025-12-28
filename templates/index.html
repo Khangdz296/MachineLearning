@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dự đoán Tiểu Đường</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f7f6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+      .container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+      }
+      h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #555;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box; /* Đảm bảo padding không làm vỡ layout */
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      button:hover {
+        background-color: #218838;
+      }
+      .result {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 4px;
+        text-align: center;
+        display: none; /* Ẩn mặc định */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Dự đoán Bệnh Tiểu Đường</h2>
+      <form action="/predict" method="POST">
+        <div class="form-group">
+          <label for="gender">Giới tính (Gender)</label>
+          <select id="gender" name="gender" required>
+            <option value="Male">Nam</option>
+            <option value="Female">Nữ</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="age">Tuổi (Age)</label>
+          <input
+            type="number"
+            step="0.1"
+            id="age"
+            name="age"
+            required
+            placeholder="Ví dụ: 25"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="hypertension">Cao huyết áp (Hypertension)</label>
+          <select id="hypertension" name="hypertension">
+            <option value="0">Không (No)</option>
+            <option value="1">Có (Yes)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="heart_disease">Bệnh tim mạch (Heart Disease)</label>
+          <select id="heart_disease" name="heart_disease">
+            <option value="0">Không (No)</option>
+            <option value="1">Có (Yes)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="smoking_history"
+            >Lịch sử hút thuốc (Smoking History)</label
+          >
+          <select id="smoking_history" name="smoking_history">
+            <option value="never">Chưa từng (Never)</option>
+            <option value="current">Đang hút (Current)</option>
+            <option value="former">Đã từng (Former)</option>
+            <option value="not current">
+              Không phải hôm nay (not current)
+            </option>
+            <option value="No Info">Không thông tin (No Info)</option>
+            <option value="ever">Luôn luôn (ever)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="bmi">Chỉ số BMI</label>
+          <input
+            type="number"
+            step="0.01"
+            id="bmi"
+            name="bmi"
+            required
+            placeholder="Ví dụ: 27.32"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="HbA1c_level">Chỉ số HbA1c</label>
+          <input
+            type="number"
+            step="0.1"
+            id="HbA1c_level"
+            name="HbA1c_level"
+            required
+            placeholder="Ví dụ: 6.5"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="blood_glucose_level">Đường huyết (Blood Glucose)</label>
+          <input
+            type="number"
+            id="blood_glucose_level"
+            name="blood_glucose_level"
+            required
+            placeholder="Ví dụ: 140"
+          />
+        </div>
+
+        <button type="submit">Dự đoán ngay</button>
+      </form>
+
+      {% if prediction_text %}
+      <div
+        class="result"
+        style="display: block; background-color: {{ color }}; color: #fff;"
+      >
+        <h3>{{ prediction_text }}</h3>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
